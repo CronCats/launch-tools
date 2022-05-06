@@ -1,0 +1,17 @@
+{
+  "name": "launch-tools",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@cosmjs/amino": "^0.28.4",
+    "@cosmjs/crypto": "^0.28.4",
+    "@cosmjs/encoding": "^0.28.4",
+    "@cosmjs/proto-signing": "^0.28.4",
+    "@cosmjs/stargate": "^0.28.4",
+    "axios": "^0.27.2",
+    "cosmwasm": "^1.1.1",
+    "cw-croncat": "git+https://github.com/CronCats/cw-croncat.git",
+    "chain-registry": "git+https://github.com/cosmos/chain-registry.git"
+  }
+}
