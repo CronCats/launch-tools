@@ -5,7 +5,10 @@
   "license": "MIT",
   "scripts": {
     "bootstrap": "node bootstrap.js",
-    "init": "node initialize.js"
+    "init": "node initialize.js",
+    "agent": "node agent.js",
+    "tasks": "node tasks.js",
+    "go": "node purrbox.js"
   },
   "dependencies": {
     "@cosmjs/amino": "^0.28.4",

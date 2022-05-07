@@ -29,6 +29,19 @@ This should be run in a diff terminal, or docker runtime. See the `start.sh` fil
 NOTE: You will need to check files for the networks specified. When possible, modify the env files to suit needs.
 
 ```bash
+# Step 1
 # Deploy and Instantiate
 yarn init
+
+# Step 2
+# Register an Agent
+yarn agent
+
+# Step 3
+# Create a Task or TWO!
+yarn tasks
+
+# Step 4
+# Run Some things, with your purrbox
+yarn purr
 ```
