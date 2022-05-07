@@ -12,6 +12,10 @@ yarn
 
 # Step 2
 ./build_contracts.sh
+
+# Step 3: Optional, for local
+# create all demo accounts & setup
+yarn bootstrap
 ```
 
 ### Optional: Setup a local node
@@ -26,5 +30,5 @@ NOTE: You will need to check files for the networks specified. When possible, mo
 
 ```bash
 # Deploy and Instantiate
-node instantiate.js
+yarn init
 ```
