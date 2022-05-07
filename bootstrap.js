@@ -5,9 +5,20 @@ async function main() {
   const config = await utils.getChainConfig();
   
   // List of easy-to-remember accounts to generate
-  const pseudonyms = ['angela', 'bob', 'creed', 'dwight', 'jim', 'kevin', 'michael', 'oscar', 'pam']
-  const wallets = await utils.generateWalletsFromLabelList(config, pseudonyms)
-  console.log('Wallets Created:', Object.keys(wallets));
+  const catnyms = ['manager']
+  const agentnyms = ['angela', 'bob', 'creed', 'dwight', 'jim', 'kevin', 'michael', 'oscar', 'pam']
+  const catBanks = await utils.generateWalletsFromLabelList(config, catnyms)
+  const wallets = await utils.generateWalletsFromLabelList(config, agentnyms)
+  console.log('Croncat Created:', Object.keys(catBanks));
+  console.log('Agent Wallets Created:', Object.keys(wallets));
+
+  // Fund the wallets from the default account
+  for await (const c of Object.values(catBanks)) {
+    await utils.faucetSendCoins(config, c.accounts[0].address, 10_000)
+  }
+  for await (const w of Object.values(wallets)) {
+    await utils.faucetSendCoins(config, w.accounts[0].address, 100)
+  }
 }
 
 main().then(

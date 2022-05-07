@@ -1,10 +1,10 @@
 {
   "chain_name": "local",
   "status": "testing",
-  "network_type": "localnet",
+  "network_type": "testing",
   "pretty_name": "LocalsOnly",
-  "chain_id": "wasm-1",
-  "bech32_prefix": "cosm",
+  "chain_id": "",
+  "bech32_prefix": "wasm",
   "slip44": 118,
   "apis": {
     "rpc": [
