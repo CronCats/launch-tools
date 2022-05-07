@@ -2,13 +2,8 @@ const { readFileSync, writeFileSync, existsSync, mkdirSync } = require('fs');
 const path = require('path');
 const { SigningCosmWasmClient } = require("@cosmjs/cosmwasm-stargate");
 const { DirectSecp256k1HdWallet } = require("@cosmjs/proto-signing");
-// const { calculateFee, GasPrice } = require("@cosmjs/stargate");
 const { coins } = require("@cosmjs/amino");
-const {
-  assertIsDeliverTxSuccess,
-  SigningStargateClient,
-  calculateFee,
-} = require("@cosmjs/stargate");
+const { assertIsDeliverTxSuccess, calculateFee, } = require("@cosmjs/stargate");
 
 // example:
 // juno/accounts.json
@@ -30,6 +25,19 @@ const getClient = async (mnemonic, config) => {
   const endpoint = config.apis.rpc[0].address;
   const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, { prefix: config.bech32_prefix });
   return SigningCosmWasmClient.connectWithSigner(endpoint, wallet);
+}
+
+const getAgentClient = async (config, label) => {
+  const accountData = getLabelledWallet(config, label)
+  if (!accountData) return;
+  return getClient(accountData.mnemonic, config)
+}
+
+const getLabelledWallet = async (config, label) => {
+  const accountFile = getWalletFile(config, label)
+  try {
+    return JSON.parse(await readFileSync(accountFile, 'utf8'))
+  } catch (e) { }
 }
 
 const generateAndStoreWallet = async (config, label = '') => {
@@ -63,6 +71,9 @@ const getChainCoinConfig = config => {
 
 module.exports = {
 
+  catnyms: ['manager'],
+  agentnyms: ['angela', 'bob', 'creed', 'dwight', 'jim', 'kevin', 'michael', 'oscar', 'pam'],
+
   getChainConfig: async chain => {
     if (!chain) {
       return JSON.parse(await readFileSync(__dirname + '/env/local_chain.json', 'utf8'))
@@ -76,6 +87,8 @@ module.exports = {
   getChainCoinConfig,
 
   getClient,
+
+  getAgentClient,
 
   faucetSendCoins: async (config, recipient, amount) => {
     const { prefix, gas, denom } = getChainCoinConfig(config)
@@ -96,6 +109,8 @@ module.exports = {
   getWalletFile,
 
   getWallet,
+
+  getLabelledWallet,
 
   generateAndStoreWallet,
 

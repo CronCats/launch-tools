@@ -5,10 +5,8 @@ async function main() {
   const config = await utils.getChainConfig();
   
   // List of easy-to-remember accounts to generate
-  const catnyms = ['manager']
-  const agentnyms = ['angela', 'bob', 'creed', 'dwight', 'jim', 'kevin', 'michael', 'oscar', 'pam']
-  const catBanks = await utils.generateWalletsFromLabelList(config, catnyms)
-  const wallets = await utils.generateWalletsFromLabelList(config, agentnyms)
+  const catBanks = await utils.generateWalletsFromLabelList(config, utils.catnyms)
+  const wallets = await utils.generateWalletsFromLabelList(config, utils.agentnyms)
   console.log('Croncat Created:', Object.keys(catBanks));
   console.log('Agent Wallets Created:', Object.keys(wallets));
 
@@ -23,7 +21,7 @@ async function main() {
 
 main().then(
   () => {
-    console.info("All done, purr time.");
+    console.info("All done, ready to purr.");
     process.exit(0);
   },
   (error) => {
