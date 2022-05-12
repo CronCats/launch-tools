@@ -25,7 +25,7 @@ async function main() {
     {
       label: "Croncat Manager",
       msg: {
-        denom: coinConfig.denom,
+        denom: coinConfig.gas,
         owner_id: managerAddress,
       },
       admin: managerAddress,

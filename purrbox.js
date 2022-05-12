@@ -6,28 +6,27 @@ async function main() {
   // 0. Load agent
   const config = await utils.getChainConfig()
   const coinConfig = await utils.getChainCoinConfig(config)
-  const managerWallet = await utils.getLabelledWallet(config, utils.catnyms[0])
   const agentWallet = await utils.getLabelledWallet(config, utils.agentnyms[0])
   const agent = await utils.getAgentClient(config, utils.agentnyms[0])
   const gasPrice = GasPrice.fromString(`0.025${coinConfig.gas}`)
   const fee = calculateFee(150_000, gasPrice)
   const memo = `Purrrrrrrr...`;
-  const managerAddress = `${managerWallet.accounts[0].address}`
   const agentAddress = `${agentWallet.accounts[0].address}`
   const managerContract = 'wasm1qwlgtx52gsdu7dtp0cekka5zehdl0uj3fhp9acg325fvgs8jdzksu3v4ff'
 
-  // 1. Check active tasks in loop until find some
-  // GetAgentTasks { account_id: Addr }
-  try {
-    const q_tx = await agent.queryContractSmart(
-      managerContract,
-      { get_agent_tasks: { account_id: agentAddress } },
-    );
-    console.log('get agent tasks', q_tx);
-  } catch (e) {
-    console.log('GET AGENT FAILED', e);
-    return;
-  }
+  // TODO: re-enable once contract impl complete
+  // // 1. Check active tasks in loop until find some
+  // // GetAgentTasks { account_id: Addr }
+  // try {
+  //   const q_tx = await agent.queryContractSmart(
+  //     managerContract,
+  //     { get_agent_tasks: { account_id: agentAddress } },
+  //   );
+  //   console.log('get agent tasks', q_tx);
+  // } catch (e) {
+  //   console.log('GET AGENT FAILED', e);
+  //   return;
+  // }
 
   // 2. Execute proxy_call
   // ProxyCall {}

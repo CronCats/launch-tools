@@ -5,13 +5,11 @@ const utils = require('./utils');
 async function main() {
   const config = await utils.getChainConfig()
   const coinConfig = await utils.getChainCoinConfig(config)
-  const managerWallet = await utils.getLabelledWallet(config, utils.catnyms[0])
   const userWallet = await utils.getLabelledWallet(config, utils.agentnyms[0])
   const user = await utils.getAgentClient(config, utils.agentnyms[0])
   const gasPrice = GasPrice.fromString(`0.025${coinConfig.gas}`)
   const fee = calculateFee(200_000, gasPrice)
   const memo = `tasks MEOW!`;
-  const managerAddress = `${managerWallet.accounts[0].address}`
   const userAddress = `${userWallet.accounts[0].address}`
   const managerContract = 'wasm1qwlgtx52gsdu7dtp0cekka5zehdl0uj3fhp9acg325fvgs8jdzksu3v4ff'
 
@@ -87,6 +85,19 @@ async function main() {
       console.log('TASK CREATE FAILED', e);
       return;
     }
+  }
+
+  // 2. Get list of tasks
+  // GetTasks { }
+  try {
+    const q_tx = await user.queryContractSmart(
+      managerContract,
+      { get_tasks: {} },
+    );
+    console.log('get tasks', q_tx);
+  } catch (e) {
+    console.log('GET FAILED', e);
+    return;
   }
 }
 
