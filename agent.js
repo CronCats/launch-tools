@@ -1,25 +1,30 @@
 #!/usr/bin/env -S yarn node
+const { calculateFee, GasPrice } = require("@cosmjs/stargate");
 const utils = require('./utils');
 
 async function main() {
   const config = await utils.getChainConfig()
-  const managerWallet = utils.getLabelledWallet(config, utils.catnyms[0])
-  const agentWallet = utils.getLabelledWallet(config, utils.agentnyms[0])
-  const agent = getAgentClient(config, utils.agentnyms[0])
-  const fee = calculateFee(500_000, "0.000037ujuno");
+  const coinConfig = await utils.getChainCoinConfig(config)
+  const managerWallet = await utils.getLabelledWallet(config, utils.catnyms[0])
+  const agentWallet = await utils.getLabelledWallet(config, utils.agentnyms[0])
+  const agent = await utils.getAgentClient(config, utils.agentnyms[0])
+  const gasPrice = GasPrice.fromString(`0.025${coinConfig.gas}`)
+  const fee = calculateFee(500_000, gasPrice)
   const memo = `Agent MEOW!`;
   const managerAddress = `${managerWallet.accounts[0].address}`
   const agentAddress = `${agentWallet.accounts[0].address}`
+  const managerContract = 'wasm1qwlgtx52gsdu7dtp0cekka5zehdl0uj3fhp9acg325fvgs8jdzksu3v4ff'
+  console.log('agentAddress', agentAddress);
 
   // 1. Register 1 or more agents
   // RegisterAgent {}
   try {
     const r_tx = await agent.execute(
       agentAddress,
-      managerAddress,
+      managerContract,
       { register_agent: {} },
       fee,
-      memo
+      memo,
     );
     console.log('register tx hash', r_tx.transactionHash, r_tx);
   } catch (e) {
@@ -31,7 +36,7 @@ async function main() {
   // GetAgent { account_id: Addr }
   try {
     const q_tx = await agent.queryContractSmart(
-      managerAddress,
+      managerContract,
       { get_agent: { account_id: agentAddress } },
     );
     console.log('get agent', q_tx);

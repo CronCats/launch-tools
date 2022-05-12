@@ -28,13 +28,13 @@ const getClient = async (mnemonic, config) => {
 }
 
 const getAgentClient = async (config, label) => {
-  const accountData = getLabelledWallet(config, label)
+  const accountData = await getLabelledWallet(config, label)
   if (!accountData) return;
   return getClient(accountData.mnemonic, config)
 }
 
 const getLabelledWallet = async (config, label) => {
-  const accountFile = getWalletFile(config, label)
+  const accountFile = await getWalletFile(config, label)
   try {
     return JSON.parse(await readFileSync(accountFile, 'utf8'))
   } catch (e) { }

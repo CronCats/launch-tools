@@ -4,8 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "all": "yarn bootstrap && yarn in && yarn agent && yarn tasks && yarn go",
     "bootstrap": "node bootstrap.js",
-    "init": "node initialize.js",
+    "in": "node instantiate.js",
     "agent": "node agent.js",
     "tasks": "node tasks.js",
     "go": "node purrbox.js"
