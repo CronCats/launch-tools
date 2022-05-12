@@ -9,8 +9,8 @@ const { assertIsDeliverTxSuccess, calculateFee, } = require("@cosmjs/stargate");
 // juno/accounts.json
 // juno/alice_accounts.json
 const getWalletFile = (config, label = '', onlyDir = false) => {
-  if (onlyDir) return path.join(__dirname, 'env', `${config.bech32_prefix}`)
-  else return path.join(__dirname, 'env', `${config.bech32_prefix}/${label ? label + '_' : ''}accounts.json`)
+  if (onlyDir) return path.join(__dirname, 'data', `${config.bech32_prefix}`)
+  else return path.join(__dirname, 'data', `${config.bech32_prefix}/${label ? label + '_' : ''}accounts.json`)
 };
 
 const getWallet = async (config, label = '') => {
@@ -63,6 +63,27 @@ const generateAndStoreWallet = async (config, label = '') => {
   return accountsFile
 }
 
+const updateContractWallet = async (config, label = '', options = {}) => {
+  const accountFileDir = getWalletFile(config, label, true)
+  const accountFile = getWalletFile(config, label)
+  let walletData = {}
+  try {
+    walletData = JSON.parse(await readFileSync(accountFile, 'utf8'))
+  } catch (e) {
+    return;
+  }
+
+  let newData = {
+    ...options,
+    ...walletData,
+  }
+
+  if (!existsSync(accountFileDir)) await mkdirSync(accountFileDir)
+  await writeFileSync(accountFile, JSON.stringify(newData), 'utf8')
+
+  return newData
+}
+
 const getChainCoinConfig = config => {
   const prefix = config.bech32_prefix;
   if (prefix === 'wasm') return { prefix, gas: `ucosm`, denom: `cosm` }
@@ -76,7 +97,7 @@ module.exports = {
 
   getChainConfig: async chain => {
     if (!chain) {
-      return JSON.parse(await readFileSync(__dirname + '/env/local_chain.json', 'utf8'))
+      return JSON.parse(await readFileSync(__dirname + '/data/local_chain.json', 'utf8'))
     } else {
       // return chainRegistry[chain].chain
       const p = path.join(__dirname, '/node_modules/chain-registry/', chain, 'chain.json')
@@ -93,7 +114,7 @@ module.exports = {
   faucetSendCoins: async (config, recipient, amount) => {
     const { prefix, gas, denom } = getChainCoinConfig(config)
     const endpoint = config.apis.rpc[0].address;
-    const walletFile = path.join(__dirname, 'env', `faucet_account.json`)
+    const walletFile = path.join(__dirname, 'data', `faucet_account.json`)
     const walletData = JSON.parse(await readFileSync(walletFile, 'utf8'))
     const wallet = await DirectSecp256k1HdWallet.fromMnemonic(walletData.mnemonic, { prefix });
     const faucet_address = (await wallet.getAccounts())[0].address;
@@ -105,6 +126,8 @@ module.exports = {
     console.log(`${memo} :: ${recipient} got ${amount}u${denom}`);
     return assertIsDeliverTxSuccess(sendResult)
   },
+
+  updateContractWallet,
 
   getWalletFile,
 

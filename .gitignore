@@ -105,8 +105,8 @@ dist
 
 res
 
-env/*
-!env/local_chain.json
-!env/faucet_account.json
-!env/default_account.json
-!env/default-account.txt
+data/*
+!data/local_chain.json
+!data/faucet_account.json
+!data/default_account.json
+!data/default-account.txt
