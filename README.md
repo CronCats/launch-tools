@@ -16,16 +16,25 @@ yarn
 
 ### Optional: Setup a local node
 
-If you intend to launch on a local node, you need to install the following:
+#### Starting the blockchain
 
-1. Follow the [install guide for cosmjs](https://github.com/cosmos/cosmjs/blob/main/HACKING.md#checking-out-code)
-2. `yarn install` at the root
-3. `cd scripts/wasmd/` then `nano template/.wasmd/config/genesis.json` and change `"max_wasm_code_size": "614400"` to `"max_wasm_code_size": "654400"`
-4. [Setup & run wasmd docker instance](https://github.com/cosmos/cosmjs/tree/main/scripts/wasmd)
+This should be run in a diff terminal, or docker runtime is ready before proceeding.
+Run the following:
 
-This should be run in a diff terminal, or docker runtime. See the `start.sh` & `init.sh` files runs properly and is ready before proceeding.
+```
+./start.sh && ./init.sh
+```
 
-## 🚀 Lauch Sequence
+## CLI
+
+Docker-friendly access to `wasmd` is provided. Just use the `./cli.sh` script.
+For example:
+
+```
+./cli.sh status
+```
+
+# 🚀 Lauch Sequence
 
 NOTE: You will need to check files for the networks specified. When possible, modify the env files to suit needs.
 
@@ -39,23 +48,22 @@ yarn all
 ### Individual Cmds
 
 ```bash
-# Step 0: Optional, for local
+#  Optional, for local
 # create all demo accounts & setup
 yarn bootstrap
 
-# Step 1
 # Deploy and Instantiate
 yarn in
 
-# Step 2
+# Step 1
 # Register an Agent
 yarn agent
 
-# Step 3
+# Step 2
 # Create a Task or TWO!
 yarn tasks
 
-# Step 4
+# Step 3
 # Run Some things, with your purrbox
 yarn go
 ```

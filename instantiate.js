@@ -47,6 +47,11 @@ async function main() {
       },
     );
     console.info(`Contract instantiated at ${contractAddress}`);
+
+    // update the wallet to use the contract address later
+    await utils.updateContractWallet(config, utils.catnyms[0], {
+      contractAddress,
+    })
   }
 }
 

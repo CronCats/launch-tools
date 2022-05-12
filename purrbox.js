@@ -8,11 +8,12 @@ async function main() {
   const coinConfig = await utils.getChainCoinConfig(config)
   const agentWallet = await utils.getLabelledWallet(config, utils.agentnyms[0])
   const agent = await utils.getAgentClient(config, utils.agentnyms[0])
+  const managerWallet = await utils.getLabelledWallet(config, utils.catnyms[0])
+  const managerContract = `${managerWallet.contractAddress}`
   const gasPrice = GasPrice.fromString(`0.025${coinConfig.gas}`)
   const fee = calculateFee(150_000, gasPrice)
   const memo = `Purrrrrrrr...`;
   const agentAddress = `${agentWallet.accounts[0].address}`
-  const managerContract = 'wasm1qwlgtx52gsdu7dtp0cekka5zehdl0uj3fhp9acg325fvgs8jdzksu3v4ff'
 
   // TODO: re-enable once contract impl complete
   // // 1. Check active tasks in loop until find some

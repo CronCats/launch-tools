@@ -7,13 +7,13 @@ async function main() {
   const coinConfig = await utils.getChainCoinConfig(config)
   const userWallet = await utils.getLabelledWallet(config, utils.agentnyms[0])
   const user = await utils.getAgentClient(config, utils.agentnyms[0])
+  const managerWallet = await utils.getLabelledWallet(config, utils.catnyms[0])
+  const managerContract = `${managerWallet.contractAddress}`
   const gasPrice = GasPrice.fromString(`0.025${coinConfig.gas}`)
   const fee = calculateFee(200_000, gasPrice)
   const memo = `tasks MEOW!`;
   const userAddress = `${userWallet.accounts[0].address}`
-  const managerContract = 'wasm1qwlgtx52gsdu7dtp0cekka5zehdl0uj3fhp9acg325fvgs8jdzksu3v4ff'
 
-  // 
   // TaskRequest {
   //   pub interval: Interval,
   //   pub boundary: Boundary,
