@@ -452,6 +452,10 @@ cosmwasm@^1.1.1:
   version "0.0.0"
   resolved "git+https://github.com/CronCats/cw-croncat.git#847fcad0c191820c76ac03f19eccebc369498188"
 
+"cw-purrbox@git+https://github.com/CronCats/cw-purrbox.git":
+  version "0.0.0"
+  resolved "git+https://github.com/CronCats/cw-purrbox.git#57dc9bce82288fccba7fa2a3125be6e3b87097e8"
+
 decamelize@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"

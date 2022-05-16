@@ -9,10 +9,46 @@ async function main() {
   const user = await utils.getAgentClient(config, utils.agentnyms[0])
   const managerWallet = await utils.getLabelledWallet(config, utils.catnyms[0])
   const managerContract = `${managerWallet.contractAddress}`
+  const iftttSimpleWallet = await utils.getLabelledWallet(config, utils.catnyms[1])
+  const iftttSimpleContract = `${iftttSimpleWallet.contractAddress}`
   const gasPrice = GasPrice.fromString(`0.025${coinConfig.gas}`)
   const fee = calculateFee(200_000, gasPrice)
   const memo = `tasks MEOW!`;
   const userAddress = `${userWallet.accounts[0].address}`
+
+  const sampleActions = [
+    {
+      Execute: {
+        contract_addr: iftttSimpleContract,
+        /// msg is the json-encoded ExecuteMsg struct (as raw Binary)
+        // msg: Binary,
+        msg: {
+          // TODO:????
+          Increment: {},
+        },
+        funds: [],
+      }
+    },
+    {
+      staking: {
+        delegate: {
+          validator: 'junovaloper1ka8v934kgrw6679fs9cuu0kesyl0ljjy2kdtrl',
+          amount: {
+            amount: '100',
+            denom: coinConfig.gas
+          },
+        }
+      }
+    },
+    {
+      distribution: {
+        withdraw_delegator_reward: {
+          validator: 'junovaloper1ka8v934kgrw6679fs9cuu0kesyl0ljjy2kdtrl',
+        }
+      }
+    },
+  ]
+
 
   // TaskRequest {
   //   pub interval: Interval,
@@ -36,17 +72,7 @@ async function main() {
         end: null,
       },
       stop_on_fail: false,
-      action: {
-        staking: {
-          delegate: {
-            validator: 'junovaloper1ka8v934kgrw6679fs9cuu0kesyl0ljjy2kdtrl',
-            amount: {
-              amount: '100',
-              denom: coinConfig.gas
-            },
-          }
-        }
-      },
+      action: sampleActions[1],
       // TODO: setup a rules example too
       rules: [],
     },
@@ -56,14 +82,53 @@ async function main() {
       },
       boundary: { start: null, end: null, },
       stop_on_fail: false,
-      action: {
-        distribution: {
-          withdraw_delegator_reward: {
-            validator: 'junovaloper1ka8v934kgrw6679fs9cuu0kesyl0ljjy2kdtrl',
-          }
-        }
-      },
+      action: sampleActions[2],
       rules: [],
+    },
+
+    // IFTTT Simple (1 rule)
+    {
+      interval: {
+        Block: 1
+      },
+      boundary: { start: null, end: null, },
+      stop_on_fail: true,
+      action: sampleActions[0],
+      rules: [
+        {
+          contract_id: iftttSimpleContract,
+          // msg: Binary,
+          msg: {
+            CheckModulo: {}
+          },
+        }
+      ],
+    },
+
+    // IFTTT Simple (2 rules)
+    {
+      interval: {
+        Block: 1
+      },
+      boundary: { start: null, end: null, },
+      stop_on_fail: true,
+      action: sampleActions[0],
+      rules: [
+        {
+          contract_id: iftttSimpleContract,
+          // msg: Binary,
+          msg: {
+            CheckModulo: {}
+          },
+        },
+        {
+          contract_id: iftttSimpleContract,
+          // msg: Binary,
+          msg: {
+            CheckInputModulo: {}
+          },
+        },
+      ],
     },
   ]
 

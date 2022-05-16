@@ -21,6 +21,7 @@
     "chain-registry": "git+https://github.com/cosmos/chain-registry.git",
     "cosmwasm": "^1.1.1",
     "cw-croncat": "git+https://github.com/CronCats/cw-croncat.git",
+    "cw-purrbox": "git+https://github.com/CronCats/cw-purrbox.git",
     "dotenv": "^16.0.0"
   }
 }
