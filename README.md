@@ -14,7 +14,7 @@ yarn
 ./build_contracts.sh
 ```
 
-### Optional: Setup a local node
+## 🤖 Setup a local node
 
 #### Starting the blockchain
 
