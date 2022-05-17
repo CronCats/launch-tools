@@ -1,5 +1,7 @@
 #!/usr/bin/env -S yarn node
 const { calculateFee, GasPrice } = require("@cosmjs/stargate");
+const { fromBase64, toHex, toUtf8 } = require("@cosmjs/encoding");
+const { toBinary } = require("@cosmjs/cosmwasm-stargate");
 const utils = require('./utils');
 
 async function main() {
@@ -18,21 +20,41 @@ async function main() {
 
   const sampleActions = [
     {
-      Execute: {
-        contract_addr: iftttSimpleContract,
-        /// msg is the json-encoded ExecuteMsg struct (as raw Binary)
-        // msg: Binary,
-        msg: {
-          // TODO:????
-          Increment: {},
-        },
-        funds: [],
+      wasm: {
+        execute: {
+          contract_addr: iftttSimpleContract,
+          funds: [],
+          /// msg is the json-encoded ExecuteMsg struct (as raw Binary)
+          msg: toBinary({ increment: {} }),
+          // msg: toBinary({ Increment: {} }),
+          // msg: toBinary(JSON.stringify({ Increment: {} })),
+
+
+          // BAD:
+          // msg: toUtf8(JSON.stringify({ Increment: {} })),
+          // msg: {
+          //   wasm: {
+          //     execute: {
+          //       Increment: {},
+          //     }
+          //   }
+          // },
+          // msg: toBinary({
+          //   wasm: {
+          //     execute: {
+          //       Increment: {},
+          //     }
+          //   }
+          // }),
+          // funds: null,
+        }
       }
     },
     {
       staking: {
         delegate: {
-          validator: 'junovaloper1ka8v934kgrw6679fs9cuu0kesyl0ljjy2kdtrl',
+          // See template/.wasmd/config/genesis.json
+          validator: 'wasmvaloper1tjgue6r5kqj5dets24pwaa9u7wuzucpwfsgndk',
           amount: {
             amount: '100',
             denom: coinConfig.gas
@@ -43,7 +65,7 @@ async function main() {
     {
       distribution: {
         withdraw_delegator_reward: {
-          validator: 'junovaloper1ka8v934kgrw6679fs9cuu0kesyl0ljjy2kdtrl',
+          validator: 'wasmvaloper1tjgue6r5kqj5dets24pwaa9u7wuzucpwfsgndk',
         }
       }
     },
@@ -58,33 +80,33 @@ async function main() {
   //   pub rules: Option<Vec<Rule>>,
   // }
   const tasks = [
-    {
-      // interval: 'Once',
-      // interval: 'Immediate',
-      interval: {
-        Block: 15
-      },
-      // interval: {
-      //   Cron: '*/5 * * * * *'
-      // },
-      boundary: {
-        start: null,
-        end: null,
-      },
-      stop_on_fail: false,
-      action: sampleActions[1],
-      // TODO: setup a rules example too
-      rules: [],
-    },
-    {
-      interval: {
-        Cron: '*/5 * * * * *'
-      },
-      boundary: { start: null, end: null, },
-      stop_on_fail: false,
-      action: sampleActions[2],
-      rules: [],
-    },
+    // {
+    //   // interval: 'Once',
+    //   // interval: 'Immediate',
+    //   interval: {
+    //     Block: 15
+    //   },
+    //   // interval: {
+    //   //   Cron: '*/5 * * * * *'
+    //   // },
+    //   boundary: {
+    //     start: null,
+    //     end: null,
+    //   },
+    //   stop_on_fail: false,
+    //   action: sampleActions[1],
+    //   // TODO: setup a rules example too
+    //   rules: [],
+    // },
+    // {
+    //   interval: {
+    //     Cron: '*/5 * * * * *'
+    //   },
+    //   boundary: { start: null, end: null, },
+    //   stop_on_fail: false,
+    //   action: sampleActions[2],
+    //   rules: [],
+    // },
 
     // IFTTT Simple (1 rule)
     {
@@ -92,45 +114,61 @@ async function main() {
         Block: 1
       },
       boundary: { start: null, end: null, },
-      stop_on_fail: true,
+      stop_on_fail: false,
       action: sampleActions[0],
       rules: [
-        {
-          contract_id: iftttSimpleContract,
-          // msg: Binary,
-          msg: {
-            CheckModulo: {}
-          },
-        }
+        // {
+        //   contract_id: iftttSimpleContract,
+        //   // msg: Binary,
+        //   msg: {
+        //     CheckModulo: {}
+        //   },
+        // }
       ],
     },
 
-    // IFTTT Simple (2 rules)
-    {
-      interval: {
-        Block: 1
-      },
-      boundary: { start: null, end: null, },
-      stop_on_fail: true,
-      action: sampleActions[0],
-      rules: [
-        {
-          contract_id: iftttSimpleContract,
-          // msg: Binary,
-          msg: {
-            CheckModulo: {}
-          },
-        },
-        {
-          contract_id: iftttSimpleContract,
-          // msg: Binary,
-          msg: {
-            CheckInputModulo: {}
-          },
-        },
-      ],
-    },
+    // // IFTTT Simple (2 rules)
+    // {
+    //   interval: {
+    //     Block: 1
+    //   },
+    //   boundary: { start: null, end: null, },
+    //   stop_on_fail: true,
+    //   action: sampleActions[0],
+    //   rules: [
+    //     {
+    //       contract_id: iftttSimpleContract,
+    //       // msg: Binary,
+    //       msg: {
+    //         CheckModulo: {}
+    //       },
+    //     },
+    //     {
+    //       contract_id: iftttSimpleContract,
+    //       // msg: Binary,
+    //       msg: {
+    //         CheckInputModulo: {}
+    //       },
+    //     },
+    //   ],
+    // },
   ]
+
+  // // 2. Execute proxy_call
+  // // ProxyCall {}
+  // try {
+  //   const ri_tx = await user.execute(
+  //     userAddress,
+  //     iftttSimpleContract,
+  //     { increment: {} },
+  //     fee,
+  //     memo
+  //   );
+  //   console.log('iftttSimpleContract tx hash', ri_tx.transactionHash, JSON.stringify(ri_tx));
+  // } catch (e) {
+  //   console.log('iftttSimpleContract FAILED', e);
+  //   return;
+  // }
 
   // 1. Create several tasks
   // CreateTask { task: TaskRequest }

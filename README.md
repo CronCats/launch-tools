@@ -65,5 +65,9 @@ yarn tasks
 
 # Step 3
 # Run Some things, with your purrbox
-yarn go
+yarn purr
+
+# Step 4
+# Read some data, spits out things that worked
+yarn query
 ```

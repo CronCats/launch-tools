@@ -92,7 +92,7 @@ const getChainCoinConfig = config => {
 
 module.exports = {
 
-  catnyms: ['manager','iftttsimple'],
+  catnyms: ['manager','ifttt_simple'],
   agentnyms: ['angela', 'bob', 'creed', 'dwight', 'jim', 'kevin', 'michael', 'oscar', 'pam'],
 
   getChainConfig: async chain => {

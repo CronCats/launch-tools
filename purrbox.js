@@ -11,7 +11,7 @@ async function main() {
   const managerWallet = await utils.getLabelledWallet(config, utils.catnyms[0])
   const managerContract = `${managerWallet.contractAddress}`
   const gasPrice = GasPrice.fromString(`0.025${coinConfig.gas}`)
-  const fee = calculateFee(150_000, gasPrice)
+  const fee = calculateFee(280_000, gasPrice)
   const memo = `Purrrrrrrr...`;
   const agentAddress = `${agentWallet.accounts[0].address}`
 
@@ -26,6 +26,20 @@ async function main() {
   //   console.log('get agent tasks', q_tx);
   // } catch (e) {
   //   console.log('GET AGENT FAILED', e);
+  //   return;
+  // }
+
+  // // SIMULATE?!
+  // try {
+  //   const s_tx = await agent.simulate(
+  //     agentAddress,
+  //     // NOTE: Needs fully formed messages (cosmwasm version, etc)
+  //     [{ proxy_call: {} }],
+  //     memo
+  //   );
+  //   console.log('simulate tx hash', JSON.stringify(s_tx));
+  // } catch (e) {
+  //   console.log('PROXY_CALL FAILED', e);
   //   return;
   // }
 

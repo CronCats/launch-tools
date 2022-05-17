@@ -9,3 +9,5 @@ source "$SCRIPT_DIR"/env
 
 echo "Killing Cosmos container..."
 docker container kill "$CONTAINER_NAME"
+
+rm -rf data/wasm

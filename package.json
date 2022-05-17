@@ -4,23 +4,25 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "all": "yarn agent && yarn tasks && yarn go",
+    "all": "yarn agent && yarn tasks && yarn purr && yarn query",
     "bootstrap": "node bootstrap.js",
     "in": "node instantiate.js",
     "agent": "node agent.js",
     "tasks": "node tasks.js",
-    "go": "node purrbox.js"
+    "query": "node check.js",
+    "purr": "node purrbox.js"
   },
   "dependencies": {
     "@cosmjs/amino": "^0.28.4",
     "@cosmjs/crypto": "^0.28.4",
     "@cosmjs/encoding": "^0.28.4",
     "@cosmjs/proto-signing": "^0.28.4",
+    "@cosmjs/cosmwasm-stargate": "^0.28.4",
     "@cosmjs/stargate": "^0.28.4",
     "axios": "^0.27.2",
     "chain-registry": "git+https://github.com/cosmos/chain-registry.git",
     "cosmwasm": "^1.1.1",
-    "cw-croncat": "git+https://github.com/CronCats/cw-croncat.git",
+    "cw-croncat": "git+https://github.com/CronCats/cw-croncat.git#ft/proxy",
     "cw-purrbox": "git+https://github.com/CronCats/cw-purrbox.git",
     "dotenv": "^16.0.0"
   }

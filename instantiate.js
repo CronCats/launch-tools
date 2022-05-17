@@ -3,16 +3,18 @@ const { calculateFee, GasPrice } = require("@cosmjs/stargate");
 const fs = require("fs");
 const utils = require('./utils');
 
+const getManagerMsg = (coinConfig, managerAddress) => ({
+  denom: coinConfig.gas,
+  owner_id: managerAddress,
+})
+
 const inits = [
   {
     catnym: utils.catnyms[0],
     label: "Croncat Manager",
-    msg: {
-      denom: coinConfig.gas,
-      owner_id: managerAddress,
-    },
+    msg: null,
     contractFile: 'cw_croncat',
-    uploadFee: 4_000_000,
+    uploadFee: 4_500_000,
     initFee: 1_500_000,
   },
   {
@@ -22,7 +24,7 @@ const inits = [
       count: 1,
     },
     contractFile: 'ifttt_simple',
-    uploadFee: 4_000_000,
+    uploadFee: 9_900_000,
     initFee: 1_500_000,
   },
 ];
@@ -45,7 +47,8 @@ async function initContract(initMsg, config) {
   console.info(`Upload succeeded. Receipt: ${JSON.stringify(uploadReceipt)}`);
 
   const instantiateFee = calculateFee(initMsg.initFee, gasPrice);
-  const { label, msg } = initMsg
+  let { label, msg } = initMsg
+  if (!msg) msg = getManagerMsg(coinConfig, managerAddress)
   const { contractAddress } = await manager.instantiate(
     managerAddress,
     uploadReceipt.codeId,

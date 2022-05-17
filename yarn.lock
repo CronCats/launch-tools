@@ -52,7 +52,7 @@
     typescript "~4.4"
     yargs "^15.3.1"
 
-"@cosmjs/cosmwasm-stargate@0.28.4", "@cosmjs/cosmwasm-stargate@^0.28.3":
+"@cosmjs/cosmwasm-stargate@0.28.4", "@cosmjs/cosmwasm-stargate@^0.28.3", "@cosmjs/cosmwasm-stargate@^0.28.4":
   version "0.28.4"
   resolved "https://registry.yarnpkg.com/@cosmjs/cosmwasm-stargate/-/cosmwasm-stargate-0.28.4.tgz#5f06f31cd932ae409dc75a07993ed258279fd9a7"
   integrity sha512-dkTwTD+j2mjk7+l3pQQ3io2D0U7NIA4LXzkKtfBN87PGlj2G+VJFzcXk1T4DYmvrXjsQOi1kYeQRGWFA0XdvnQ==
@@ -448,9 +448,9 @@ cosmwasm@^1.1.1:
     "@cosmjs/stargate" "^0.28.3"
     "@cosmjs/utils" "^0.28.3"
 
-"cw-croncat@git+https://github.com/CronCats/cw-croncat.git":
+"cw-croncat@git+https://github.com/CronCats/cw-croncat.git#ft/proxy":
   version "0.0.0"
-  resolved "git+https://github.com/CronCats/cw-croncat.git#847fcad0c191820c76ac03f19eccebc369498188"
+  resolved "git+https://github.com/CronCats/cw-croncat.git#cc7f668f4be8adb4b83b04b164c4fc11fdc6789e"
 
 "cw-purrbox@git+https://github.com/CronCats/cw-purrbox.git":
   version "0.0.0"
