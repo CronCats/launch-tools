@@ -14,60 +14,48 @@ async function main() {
   const iftttSimpleWallet = await utils.getLabelledWallet(config, utils.catnyms[1])
   const iftttSimpleContract = `${iftttSimpleWallet.contractAddress}`
   const gasPrice = GasPrice.fromString(`0.025${coinConfig.gas}`)
-  const fee = calculateFee(200_000, gasPrice)
+  const fee = calculateFee(450_000, gasPrice)
   const memo = `tasks MEOW!`;
   const userAddress = `${userWallet.accounts[0].address}`
 
   const sampleActions = [
     {
-      wasm: {
-        execute: {
-          contract_addr: iftttSimpleContract,
-          funds: [],
-          /// msg is the json-encoded ExecuteMsg struct (as raw Binary)
-          msg: toBinary({ increment: {} }),
-          // msg: toBinary({ Increment: {} }),
-          // msg: toBinary(JSON.stringify({ Increment: {} })),
-
-
-          // BAD:
-          // msg: toUtf8(JSON.stringify({ Increment: {} })),
-          // msg: {
-          //   wasm: {
-          //     execute: {
-          //       Increment: {},
-          //     }
-          //   }
-          // },
-          // msg: toBinary({
-          //   wasm: {
-          //     execute: {
-          //       Increment: {},
-          //     }
-          //   }
-          // }),
-          // funds: null,
+      msg: {
+        wasm: {
+          execute: {
+            contract_addr: iftttSimpleContract,
+            funds: [],
+            /// msg is the json-encoded ExecuteMsg struct (as raw Binary)
+            msg: toBinary({ increment: {} }),
+          }
         }
-      }
+      },
+      gas_limit: 280000,
     },
     {
-      staking: {
-        delegate: {
-          // See template/.wasmd/config/genesis.json
-          validator: 'wasmvaloper1tjgue6r5kqj5dets24pwaa9u7wuzucpwfsgndk',
-          amount: {
-            amount: '100',
-            denom: coinConfig.gas
-          },
+      msg: {
+        staking: {
+          delegate: {
+            // See template/.wasmd/config/genesis.json
+            validator: 'wasmvaloper1tjgue6r5kqj5dets24pwaa9u7wuzucpwfsgndk',
+            amount: {
+              amount: '100',
+              denom: coinConfig.gas
+            },
+          }
         }
-      }
+      },
+      gas_limit: 280000,
     },
     {
-      distribution: {
-        withdraw_delegator_reward: {
-          validator: 'wasmvaloper1tjgue6r5kqj5dets24pwaa9u7wuzucpwfsgndk',
+      msg: {
+        distribution: {
+          withdraw_delegator_reward: {
+            validator: 'wasmvaloper1tjgue6r5kqj5dets24pwaa9u7wuzucpwfsgndk',
+          }
         }
-      }
+      },
+      gas_limit: 280000,
     },
   ]
 
@@ -80,33 +68,33 @@ async function main() {
   //   pub rules: Option<Vec<Rule>>,
   // }
   const tasks = [
-    // {
-    //   // interval: 'Once',
-    //   // interval: 'Immediate',
-    //   interval: {
-    //     Block: 15
-    //   },
-    //   // interval: {
-    //   //   Cron: '*/5 * * * * *'
-    //   // },
-    //   boundary: {
-    //     start: null,
-    //     end: null,
-    //   },
-    //   stop_on_fail: false,
-    //   action: sampleActions[1],
-    //   // TODO: setup a rules example too
-    //   rules: [],
-    // },
-    // {
-    //   interval: {
-    //     Cron: '*/5 * * * * *'
-    //   },
-    //   boundary: { start: null, end: null, },
-    //   stop_on_fail: false,
-    //   action: sampleActions[2],
-    //   rules: [],
-    // },
+    {
+      // interval: 'Once',
+      // interval: 'Immediate',
+      interval: {
+        Block: 15
+      },
+      // interval: {
+      //   Cron: '*/5 * * * * *'
+      // },
+      boundary: {
+        start: null,
+        end: null,
+      },
+      stop_on_fail: false,
+      action: sampleActions[1],
+      // TODO: setup a rules example too
+      rules: [],
+    },
+    {
+      interval: {
+        Cron: '*/5 * * * * *'
+      },
+      boundary: { start: null, end: null, },
+      stop_on_fail: false,
+      action: sampleActions[2],
+      rules: [],
+    },
 
     // IFTTT Simple (1 rule)
     {
@@ -116,15 +104,12 @@ async function main() {
       boundary: { start: null, end: null, },
       stop_on_fail: false,
       action: sampleActions[0],
-      rules: [
-        // {
-        //   contract_id: iftttSimpleContract,
-        //   // msg: Binary,
-        //   msg: {
-        //     CheckModulo: {}
-        //   },
-        // }
-      ],
+      // rules: [
+      //   {
+      //     contract_addr: iftttSimpleContract,
+      //     msg: toBinary({ check_modulo: {} }),
+      //   }
+      // ],
     },
 
     // // IFTTT Simple (2 rules)
@@ -137,14 +122,14 @@ async function main() {
     //   action: sampleActions[0],
     //   rules: [
     //     {
-    //       contract_id: iftttSimpleContract,
+    //       contract_addr: iftttSimpleContract,
     //       // msg: Binary,
     //       msg: {
     //         CheckModulo: {}
     //       },
     //     },
     //     {
-    //       contract_id: iftttSimpleContract,
+    //       contract_addr: iftttSimpleContract,
     //       // msg: Binary,
     //       msg: {
     //         CheckInputModulo: {}
@@ -154,26 +139,10 @@ async function main() {
     // },
   ]
 
-  // // 2. Execute proxy_call
-  // // ProxyCall {}
-  // try {
-  //   const ri_tx = await user.execute(
-  //     userAddress,
-  //     iftttSimpleContract,
-  //     { increment: {} },
-  //     fee,
-  //     memo
-  //   );
-  //   console.log('iftttSimpleContract tx hash', ri_tx.transactionHash, JSON.stringify(ri_tx));
-  // } catch (e) {
-  //   console.log('iftttSimpleContract FAILED', e);
-  //   return;
-  // }
-
   // 1. Create several tasks
   // CreateTask { task: TaskRequest }
   for await (const task of tasks) {
-    const funds = [{ amount: '150000', denom: coinConfig.gas }]
+    const funds = [{ amount: '450000', denom: coinConfig.gas }]
     try {
       const r_tx = await user.execute(
         userAddress,
@@ -183,7 +152,7 @@ async function main() {
         memo,
         funds,
       );
-      console.log('task create tx hash', r_tx.transactionHash, r_tx);
+      console.log('task create tx hash', r_tx.transactionHash, JSON.stringify(r_tx));
     } catch (e) {
       console.log('TASK CREATE FAILED', e);
       return;

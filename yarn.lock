@@ -450,7 +450,7 @@ cosmwasm@^1.1.1:
 
 "cw-croncat@git+https://github.com/CronCats/cw-croncat.git#ft/proxy":
   version "0.0.0"
-  resolved "git+https://github.com/CronCats/cw-croncat.git#cc7f668f4be8adb4b83b04b164c4fc11fdc6789e"
+  resolved "git+https://github.com/CronCats/cw-croncat.git#9ab52cc9ae2930618251b531f874ec4842b1ed4f"
 
 "cw-purrbox@git+https://github.com/CronCats/cw-purrbox.git":
   version "0.0.0"
