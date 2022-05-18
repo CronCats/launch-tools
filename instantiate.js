@@ -24,7 +24,7 @@ const inits = [
       count: 1,
     },
     contractFile: 'ifttt_simple',
-    uploadFee: 9_900_000,
+    uploadFee: 10_500_000,
     initFee: 1_500_000,
   },
 ];
