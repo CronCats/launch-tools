@@ -15,39 +15,61 @@ async function main() {
   const memo = `Purrrrrrrr...`;
   const agentAddress = `${agentWallet.accounts[0].address}`
 
-  // TODO: re-enable once contract impl complete
-  // // 1. Check active tasks in loop until find some
-  // // GetAgentTasks { account_id: Addr }
-  // try {
-  //   const q_tx = await agent.queryContractSmart(
-  //     managerContract,
-  //     { get_agent_tasks: { account_id: agentAddress } },
-  //   );
-  //   console.log('get agent tasks', q_tx);
-  // } catch (e) {
-  //   console.log('GET AGENT FAILED', e);
-  //   return;
-  // }
+  // 1. Check active tasks in loop until find some
+  // GetAgentTasks { account_id: Addr }
+  const getTasks = async () => {
+    try {
+      const q_tx = await agent.queryContractSmart(
+        managerContract,
+        { get_agent_tasks: { account_id: agentAddress } },
+      );
+      console.log('get agent tasks', q_tx);
+      return true
+    } catch (e) {
+      console.log('GET AGENT FAILED', e);
+      return false;
+    }
+  }
 
   // 2. Execute proxy_call
   // ProxyCall {}
-  try {
-    const r_tx = await agent.execute(
-      agentAddress,
-      managerContract,
-      { proxy_call: {} },
-      fee,
-      memo
-    );
-    console.log('proxy_call tx hash', r_tx.transactionHash, JSON.stringify(r_tx));
-  } catch (e) {
-    console.log('PROXY_CALL FAILED', e);
-    return;
+  const proxyCall = async () => {
+    try {
+      const r_tx = await agent.execute(
+        agentAddress,
+        managerContract,
+        { proxy_call: {} },
+        fee,
+        memo
+      );
+      console.log('proxy_call tx hash', r_tx.transactionHash, JSON.stringify(r_tx));
+    } catch (e) {
+      console.log('PROXY_CALL FAILED', e);
+      return;
+    }
   }
-  
-  // TODO:
+
   // 3. Let it repeat and run 3+ task executions then exit
-  // 
+  let prevTs = +new Date()
+  let taskIdx = 0
+  const baseTime = 10 * 1000
+  const runLoop = async () => {
+    const hasTasks = await getTasks()
+    // do the things
+    if (hasTasks) {
+      await proxyCall()
+
+      taskIdx++
+      if (taskIdx > 3) return;
+
+      let nextTs = Math.min(baseTime - (+new Date() - prevTs), 0)
+      setTimeout(runLoop, nextTs)
+    } else {
+      setTimeout(runLoop, baseTime)
+    }
+  }
+
+  await runLoop()
 }
 
 main().then(
