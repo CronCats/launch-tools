@@ -63,6 +63,13 @@ const generateAndStoreWallet = async (config, label = '') => {
   return accountsFile
 }
 
+const generateTempDummy = async (config, endpoint) => {
+  const wallet = await DirectSecp256k1HdWallet.generate(24, { prefix: config.bech32_prefix });
+  const accounts = await wallet.getAccounts();
+  const client = await SigningCosmWasmClient.connectWithSigner(endpoint, wallet);
+  return { client, accounts }
+}
+
 const updateContractWallet = async (config, label = '', options = {}) => {
   const accountFileDir = getWalletFile(config, label, true)
   const accountFile = getWalletFile(config, label)
@@ -110,6 +117,8 @@ module.exports = {
   getClient,
 
   getAgentClient,
+
+  generateTempDummy,
 
   faucetSendCoins: async (config, recipient, amount) => {
     const { prefix, gas, denom } = getChainCoinConfig(config)

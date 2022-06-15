@@ -70,4 +70,8 @@ yarn purr
 # Step 4
 # Read some data, spits out things that worked
 yarn query
+
+# Simulator
+# Run a battery of messages and compute gas requirements & estimations
+yarn sim
 ```
