@@ -448,9 +448,9 @@ cosmwasm@^1.1.1:
     "@cosmjs/stargate" "^0.28.3"
     "@cosmjs/utils" "^0.28.3"
 
-"cw-croncat@git+https://github.com/CronCats/cw-croncat.git#ft/proxy":
+"cw-croncat@git+https://github.com/CronCats/cw-croncat.git#714758611e6e8a76720a8f6d41a7f1818ca1fcab":
   version "0.0.0"
-  resolved "git+https://github.com/CronCats/cw-croncat.git#9ab52cc9ae2930618251b531f874ec4842b1ed4f"
+  resolved "git+https://github.com/CronCats/cw-croncat.git#714758611e6e8a76720a8f6d41a7f1818ca1fcab"
 
 "cw-purrbox@git+https://github.com/CronCats/cw-purrbox.git":
   version "0.0.0"
