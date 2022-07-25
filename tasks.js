@@ -64,7 +64,7 @@ async function main() {
   //   pub interval: Interval,
   //   pub boundary: Boundary,
   //   pub stop_on_fail: bool,
-  //   pub action: CosmosMsg,
+  //   pub actions: Vec<Action>,
   //   pub rules: Option<Vec<Rule>>,
   // }
   const tasks = [
@@ -82,7 +82,7 @@ async function main() {
         end: null,
       },
       stop_on_fail: false,
-      action: sampleActions[1],
+      actions: [sampleActions[1]],
       // TODO: setup a rules example too
       rules: [],
     },
@@ -92,7 +92,7 @@ async function main() {
       },
       boundary: { start: null, end: null, },
       stop_on_fail: false,
-      action: sampleActions[2],
+      actions: [sampleActions[2]],
       rules: [],
     },
 
@@ -103,7 +103,7 @@ async function main() {
       },
       boundary: { start: null, end: null, },
       stop_on_fail: false,
-      action: sampleActions[0],
+      actions: [sampleActions[0]],
       // rules: [
       //   {
       //     contract_addr: iftttSimpleContract,
@@ -119,7 +119,7 @@ async function main() {
     //   },
     //   boundary: { start: null, end: null, },
     //   stop_on_fail: true,
-    //   action: sampleActions[0],
+    //   actions: [sampleActions[0]],
     //   rules: [
     //     {
     //       contract_addr: iftttSimpleContract,
