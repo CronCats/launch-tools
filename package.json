@@ -10,7 +10,8 @@
     "agent": "node agent.js",
     "tasks": "node tasks.js",
     "query": "node check.js",
-    "purr": "node purrbox.js"
+    "purr": "node purrbox.js",
+    "sim": "node simulator.js"
   },
   "dependencies": {
     "@cosmjs/amino": "^0.28.4",
