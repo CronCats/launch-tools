@@ -34,7 +34,7 @@ For example:
 ./cli.sh status
 ```
 
-# 🚀 Lauch Sequence
+# 🚀 Launch Sequence
 
 NOTE: You will need to check files for the networks specified. When possible, modify the env files to suit needs.
 
@@ -71,3 +71,23 @@ yarn purr
 # Read some data, spits out things that worked
 yarn query
 ```
+
+## Troubleshooting
+
+If you see this error
+
+>… realpath: command not found
+
+Mac users may need to run:
+
+    brew install coreutils
+
+Other options may be found here: https://stackoverflow.com/a/3572105
+
+---
+
+The packages `cw-croncat` and `cw-purrbox` are currently being brought in by GitHub, which [has issues](https://github.com/npm/npm/issues/1727#issuecomment-354124625) with caching, it seems.
+
+To ensure you have the latest code, consider running:
+
+    yarn update-git

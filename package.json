@@ -10,7 +10,8 @@
     "agent": "node agent.js",
     "tasks": "node tasks.js",
     "query": "node check.js",
-    "purr": "node purrbox.js"
+    "purr": "node purrbox.js",
+    "update-git": "yarn add \"git+https://github.com/CronCats/cw-croncat.git\" && yarn add \"git+https://github.com/CronCats/cw-purrbox.git\""
   },
   "dependencies": {
     "@cosmjs/amino": "^0.28.4",

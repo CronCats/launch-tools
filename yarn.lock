@@ -450,11 +450,11 @@ cosmwasm@^1.1.1:
 
 "cw-croncat@git+https://github.com/CronCats/cw-croncat.git":
   version "0.0.0"
-  resolved "git+https://github.com/CronCats/cw-croncat.git#64972490f5868713bfbe527c6d153ccf4a9be4b7"
+  resolved "git+https://github.com/CronCats/cw-croncat.git#2daaa71d1ac70deb4f43fe58b707cb82e28f1c1d"
 
 "cw-purrbox@git+https://github.com/CronCats/cw-purrbox.git":
   version "0.0.0"
-  resolved "git+https://github.com/CronCats/cw-purrbox.git#57dc9bce82288fccba7fa2a3125be6e3b87097e8"
+  resolved "git+https://github.com/CronCats/cw-purrbox.git#bfc7fe0be0a39c23c66f480e957f87c5f005f87b"
 
 decamelize@^1.2.0:
   version "1.2.0"
