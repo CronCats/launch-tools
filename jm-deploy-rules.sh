@@ -1,0 +1,2 @@
+#!/bin/bash
+junod tx wasm store artifacts/cw_rules-aarch64.wasm --node https://rpc-juno.itastakers.com:443/ --chain-id juno-1 --gas-prices 0.025ujuno --gas auto --gas-adjustment 1.3 -b block --from mikereg -o json -y | jq | head -n 42
