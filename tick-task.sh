@@ -3,8 +3,8 @@
 #source .env
 #CONTRACT=$(echo $SETTINGS | jq -r '.["contracts"]["manager"]["address"]')
 
-MSG='{ "tick": {} }'
-ENCODED_MSG=$(echo $MSG | base64)
+# MSG='{ "tick": {} }'
+# is actually just: eyAidGljayI6IHt9IH0K
 
 TICK_TASK='{
   "create_task": {
@@ -18,15 +18,17 @@ TICK_TASK='{
       "actions": [
         {
           "msg": {
-            "execute": {
-              "contract_addr": "'$1'",
-              "msg": "'$ENCODED_MSG'",
-              "funds": []
+            "wasm": {
+              "execute": {
+                "contract_addr": "'$1'",
+                "msg": "eyAidGljayI6IHt9IH0K",
+                "funds": []
+              }
             }
-          }
+          },
+          "gas_limit": 300000
         }
-      ],
-      "rules": []
+      ]
     }
   }
 }'
