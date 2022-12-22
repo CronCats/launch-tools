@@ -19,7 +19,7 @@ TICK_TASK='{
         {
           "msg": {
             "execute": {
-              "contract_addr": "$1",
+              "contract_addr": "'$1'",
               "msg": "'$ENCODED_MSG'",
               "funds": []
             }
